@@ -12,7 +12,7 @@ user_id | references
 title | string
 content | text
 deadline | datetime
-priority | iinteger
+priority | integer
 status | string
 ### Label
 カラム名 | データ型
