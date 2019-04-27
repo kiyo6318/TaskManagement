@@ -1,18 +1,25 @@
 # READ ME
-#### User
-* name:string
-* email:string
-* passwordigest:string
-#### Task
-* user_id:references
-* title:string
-* content:text
-* deadline:datetime
-* priority:integer
-* status:string
-#### Lavel
-* task_id:references
-* category:string
-#### Task_Label
-* task_id:references
-* label_id:references
+### User
+カラム名 | データ型
+--- | ---
+name | string
+email | string
+password_digest | string
+### Task
+カラム名 | データ型
+--- | ---
+user_id | references
+title | string
+content | text
+deadline | datetime
+priority | iinteger
+status | string
+### Label
+カラム名 | データ型
+--- | ---
+category | string
+### Task_Label
+カラム名 | データ型
+--- | ---
+task_id(FK) | references
+label_id(FK) | references
