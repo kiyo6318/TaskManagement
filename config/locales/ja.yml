@@ -1,5 +1,12 @@
 ---
 ja:
+  view:
+    new: "タスク新規登録"
+    show: "詳細"
+    edit: "編集"
+    delete: "削除"
+    back: "戻る"
+    Are you really sure?: "本当によろしいですか？"
   activerecord:
     errors:
       messages:

@@ -5,6 +5,6 @@
 <div>
   <%= @task.content %>
 </div>
-<%= link_to "編集",edit_task_path(@task.id) %>
-<%= link_to "削除",task_path(@task.id),method: :delete,data:{confirm:"削除しますか？"} %>
-<div><%= link_to "戻る",tasks_path %></div>
+<%= link_to t("view.edit"),edit_task_path(@task.id) %>
+<%= link_to t("view.delete"),task_path(@task.id),method: :delete,data:{confirm:t("Are you really sure?")} %>
+<div><%= link_to t("view.back"),tasks_path %></div>
