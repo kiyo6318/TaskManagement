@@ -21,7 +21,7 @@ RSpec.feature "タスク管理機能",type: :feature do
 
     fill_in "Title", with: "タイトル4"
     fill_in "Content", with: "本文4"
-
+    fill_in "Deadline",with: "2020-01-01"
     click_on "登録する"
 
     expect(page).to have_content "タイトル4"
@@ -39,5 +39,12 @@ RSpec.feature "タスク管理機能",type: :feature do
     visit tasks_path
     click_on "詳細",match: :first
     expect(page).to have_content "タイトル3"
+  end
+
+  scenario "’終了期限でソートする’リンクをクリックしたら終了期限の降順で表示されるかのテスト" do
+   visit tasks_path
+   click_on "終了期限でソートする"
+   click_on "詳細",match: :first
+   expect(page).to have_content "2020年03月01日"
   end
 end
