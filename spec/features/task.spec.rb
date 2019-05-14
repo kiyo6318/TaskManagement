@@ -48,3 +48,51 @@ RSpec.feature "タスク管理機能",type: :feature do
    expect(page).to have_content "2020年03月01日"
   end
 end
+
+RSpec.feature "タスク検索機能",type: :feature do
+  background do
+    FactoryBot.create(:task)
+    FactoryBot.create(:second_task)
+    FactoryBot.create(:third_task)
+  end
+  scenario "titleとstatus両方で絞り込み検索テスト" do
+    visit tasks_path
+    fill_in "title_search", with: "タイトル1"
+    select "完了", from: "status_search"
+    click_on "検索"
+    expect(page).to have_content "タイトル1"
+    expect(page).not_to have_content "タイトル2"
+    expect(page).not_to have_content "タイトル3"
+  end
+  scenario "titleだけで絞り込み検索テスト" do
+    visit tasks_path
+    fill_in "title_search", with: "タイトル2"
+    click_on "検索"
+    expect(page).to have_content "タイトル2"
+    expect(page).not_to have_content "タイトル1"
+    expect(page).not_to have_content "タイトル3"
+  end
+  scenario "statusだけで絞り込み検索テスト" do
+    visit tasks_path
+    select "着手中",from: "status_search"
+    click_on "検索"
+    expect(page).to have_content "タイトル3"
+    expect(page).not_to have_content "タイトル1"
+    expect(page).not_to have_content "タイトル2"
+  end
+  scenario "条件なしで検索すると全タスクが表示されるテスト" do
+    visit tasks_path
+    click_on "検索"
+    expect(page).to have_content "タイトル1"
+    expect(page).to have_content "タイトル2"
+    expect(page).to have_content "タイトル3"
+  end
+  scenario "存在しないタイトルで検索すると一つも表示されないテスト" do
+    visit tasks_path
+    fill_in "title_search",with: "タイトル4"
+    click_on "検索"
+    expect(page).not_to have_content "タイトル1"
+    expect(page).not_to have_content "タイトル2"
+    expect(page).not_to have_content "タイトル3"
+  end
+end
