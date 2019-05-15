@@ -19,5 +19,9 @@
     <%= f.label :deadline %>
     <%= f.date_field :deadline %>
   </div>
+  <div class="task_status">
+    <%= f.label :status %>
+    <%= f.select :status,["未着手","着手中","完了"] %>
+  </div>
   <%= f.submit %>
 <% end %>

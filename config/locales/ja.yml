@@ -7,6 +7,7 @@ ja:
     delete: "削除"
     back: "戻る"
     sort: "終了期限でソートする"
+    search: "検索"
     Are you really sure?: "本当によろしいですか？"
   activerecord:
     errors:
