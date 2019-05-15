@@ -5,6 +5,7 @@ FactoryBot.define do
     content {"本文1"}
     deadline {"2020-03-01"}
     status {"完了"}
+    priority {"high"}
     created_at {Time.current + 1.days}
   end
 
@@ -13,6 +14,7 @@ FactoryBot.define do
     content {"本文2"}
     deadline {"2020-02-01"}
     status {"未着手"}
+    priority {"moderate"}
     created_at {Time.current + 2.days}
   end
 
@@ -21,6 +23,7 @@ FactoryBot.define do
     content {"本文3"}
     deadline {"2020-01-01"}
     status {"着手中"}
+    priority {"low"}
     created_at {Time.current + 3.days}
   end
 end
