@@ -11,6 +11,9 @@
 <div>
   <%= @task.status %>
 </div>
+<div>
+  <%= @task.priority_i18n %>
+</div>
 <%= link_to t("view.edit"),edit_task_path(@task.id) %>
 <%= link_to t("view.delete"),task_path(@task.id),method: :delete,data:{confirm:t("Are you really sure?")} %>
 <div><%= link_to t("view.back"),tasks_path %></div>
