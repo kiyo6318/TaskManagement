@@ -6,7 +6,8 @@ ja:
     edit: "編集"
     delete: "削除"
     back: "戻る"
-    sort: "終了期限でソートする"
+    deadline_sort: "終了期限でソートする"
+    priority_sort: "優先順位でソートする"
     search: "検索"
     Are you really sure?: "本当によろしいですか？"
   activerecord:
@@ -214,3 +215,9 @@ ja:
       long: "%Y/%m/%d %H:%M"
       short: "%m/%d %H:%M"
     pm: 午後
+  enums:
+    task:
+      priority:
+        high: 高
+        moderate: 中
+        low: 低

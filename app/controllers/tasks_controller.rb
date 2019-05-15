@@ -10,6 +10,7 @@ class TasksController < ApplicationController
     else
       Task.sortings(
         params[:sort_expired],
+        params[:sort_priority]
         )
     end
   end
@@ -48,7 +49,7 @@ end
 
 private
 def task_params
-  params.require(:task).permit(:title,:content,:deadline,:status)
+  params.require(:task).permit(:title,:content,:deadline,:status,:priority)
 end
 
 def set_task
