@@ -6,12 +6,12 @@ class TasksController < ApplicationController
       Task.searchings(
         params[:title_search],
         params[:status_search]
-        )
+        ).page(params[:page]).per(12)
     else
       Task.sortings(
         params[:sort_expired],
         params[:sort_priority]
-        )
+        ).page(params[:page]).per(12)
     end
   end
 

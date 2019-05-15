@@ -1,14 +1,16 @@
 <h2>タスク一覧</h2>
-<%= form_with(method: :get,local: true) do |f| %>
-  <%= f.label :title_search,"タイトル検索" %>
-  <%= f.text_field :title_search %>
+<div>
+  <%= form_with(method: :get,local: true) do |f| %>
+    <%= f.label :title_search,"タイトル検索" %>
+    <%= f.text_field :title_search %>
 
-  <%= f.label :status_search,"状態検索" %>
-  <%= f.select :status_search,["","未着手","着手中","完了"] %>
-  <%= f.hidden_field :search,value: "true" %>
-  <%= f.submit t("view.search") %>
-<% end %>
-
+    <%= f.label :status_search,"状態検索" %>
+    <%= f.select :status_search,["","未着手","着手中","完了"] %>
+    <%= f.hidden_field :search,value: "true" %>
+    <%= f.submit t("view.search") %>
+  <% end %>
+</div>
+<br>
 <% @tasks.each do |task| %>
   <div>
     <%= task.title %>
@@ -22,6 +24,10 @@
     <%= link_to t("view.delete"),task_path(task.id),method: :delete,data:{confirm:t("view.Are you really sure?")} %>
   </div>
 <% end %>
+<br>
+<div>
+  <%= paginate @tasks %>
+</div>
 <br>
 <div>
   <%= link_to t("view.deadline_sort"),tasks_path(sort_expired: "true") %>
