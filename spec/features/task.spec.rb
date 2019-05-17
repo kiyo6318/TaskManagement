@@ -53,6 +53,60 @@ RSpec.feature "タスク管理機能",type: :feature do
     click_on "詳細",match: :first
     expect(page).to have_content "高"
   end
+
+  scenario "タスク一覧の1ページ内にタスクが12個だけ表示されるかのテスト" do
+    60.times do |i = 4|
+      Task.create!(id:i, title: "タイトル#{i}", content: "本文#{i}" , deadline: Date.today , status: "未着手" ,priority: "high")
+    end
+    visit tasks_path
+    expect(all("table tr").size).to eq(13) #見出しで１行
+  end
+
+  scenario "ページネーション(next)" do
+    57.times do |i|
+      Task.create!(id:i, title: "タイトル#{i}", content: "本文#{i}" , deadline: Date.today , status: "未着手" ,priority: "high")
+    end
+    visit tasks_path
+
+    click_on "Next"
+    first_task = all("table tr td")[0]
+    expect(first_task).to have_content "タイトル47"
+  end
+
+  scenario "ページネーション(Last)" do
+    57.times do |i|
+      Task.create!(id:i, title: "タイトル#{i}", content: "本文#{i}" , deadline: Date.today , status: "未着手" ,priority: "high")
+    end
+    visit tasks_path
+
+    click_on "Last"
+    first_task = all("table tr td")[0]
+    expect(first_task).to have_content "タイトル11"
+  end
+
+  scenario "ページネーション(Previous)" do
+    57.times do |i|
+      Task.create!(id:i, title: "タイトル#{i}", content: "本文#{i}" , deadline: Date.today , status: "未着手" ,priority: "high")
+    end
+    visit tasks_path
+
+    click_on "Last"
+    click_on "Previous"
+    first_task = all("table tr td")[0]
+    expect(first_task).to have_content "タイトル23"
+  end
+
+  scenario "ページネーション(First)" do
+    57.times do |i|
+      Task.create!(id:i, title: "タイトル#{i}", content: "本文#{i}" , deadline: Date.today , status: "未着手" ,priority: "high")
+    end
+    visit tasks_path
+
+    click_on "Last"
+    click_on "First"
+    first_task = all("table tr")[4]
+    expect(first_task).to have_content "タイトル56"
+  end
 end
 
 RSpec.feature "タスク検索機能",type: :feature do
