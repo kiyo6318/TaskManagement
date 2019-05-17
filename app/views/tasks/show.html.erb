@@ -1,18 +1,37 @@
 <h2>タスク詳細</h2>
-<div>
-  <%= @task.title %>
-</div>
-<div>
-  <%= @task.content %>
-</div>
-<div>
-  <%= @task.deadline.strftime("%Y年%m月%d日") %>
-</div>
-<div>
-  <%= @task.status %>
-</div>
-<div>
-  <%= @task.priority_i18n %>
+<br>
+<div class="table-responsive">
+  <table class="table table-bordered table-sm table-hover">
+    <tr>
+      <td class="text">
+        <%= @task.title %>
+      </td>
+    </tr>
+    <tr>
+      <td class="text">
+        <%= @task.content %>
+      </td>
+    </tr>
+    <tr>
+      <td class="text">
+        <%= @task.deadline.strftime("%Y年%m月%d日") %>
+      </td>
+    </tr>
+    <tr>
+      <td class="text">
+        <%= @task.status %>
+      </td>
+    </tr>
+    <tr>
+      <% if @task.priority_i18n == "高" %>
+        <td class="text priority high"><%= @task.priority_i18n %></td>
+      <% elsif @task.priority_i18n == "中" %>
+        <td class="text priority moderate"><%= @task.priority_i18n %></td>
+      <% elsif @task.priority_i18n == "低"%>
+        <td class="text priority low"><%= @task.priority_i18n %></td>
+      <% end %>
+    </tr>
+  </table>
 </div>
 <%= link_to t("view.edit"),edit_task_path(@task.id) %>
 <%= link_to t("view.delete"),task_path(@task.id),method: :delete,data:{confirm:t("Are you really sure?")} %>

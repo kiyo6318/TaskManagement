@@ -1,39 +1,54 @@
 <h2>タスク一覧</h2>
-<div>
+<div class="search-form">
   <%= form_with(method: :get,local: true) do |f| %>
-    <%= f.label :title_search,"タイトル検索" %>
-    <%= f.text_field :title_search %>
-
-    <%= f.label :status_search,"状態検索" %>
-    <%= f.select :status_search,["","未着手","着手中","完了"] %>
-    <%= f.hidden_field :search,value: "true" %>
-    <%= f.submit t("view.search") %>
+  <%= f.label :title_search,"タイトル検索" %>
+  <%= f.text_field :title_search %>
+  <%= f.label :status_search,"状態検索"%>
+  <%= f.select :status_search,["","未着手","着手中","完了"] %>
+  <%= f.hidden_field :search,value: "true" %>
+  <%= f.submit t("view.search") %>
   <% end %>
 </div>
 <br>
-<% @tasks.each do |task| %>
-  <div>
-    <%= task.title %>
-    <%= task.deadline.strftime("%Y%m月%d日") %>
-    <%= task.status %>
-    <%= task.priority_i18n %>
-  </div>
-  <div>
-    <%= link_to t("view.show"),task_path(task.id) %>
-    <%= link_to t("view.edit"),edit_task_path(task.id) %>
-    <%= link_to t("view.delete"),task_path(task.id),method: :delete,data:{confirm:t("view.Are you really sure?")} %>
-  </div>
-<% end %>
-<br>
+<div class="table-responsive">
+  <table class="table table-bordered table-sm table-hover">
+    <tr class="table-info">
+      <th class="text" width="40%">タイトル</th>
+      <th class="text" width="20%">終了期限</th>
+      <th class="text" width="10%">進捗状態</th>
+      <th class="text" width="10%">優先順位</th>
+      <th width="20%"></th>
+    </tr>
+    <% @tasks.each do |task| %>
+    <tr>
+      <td class="text"><%= task.title %></td>
+      <td class="text"><%= task.deadline.strftime("%Y%m月%d日") %></td>
+      <td class="text"><%= task.status %></td>
+      <% if task.priority_i18n == "高" %>
+        <td class="text priority high"><%= task.priority_i18n %></td>
+      <% elsif task.priority_i18n == "中" %>
+        <td class="text priority moderate"><%= task.priority_i18n %></td>
+      <% elsif task.priority_i18n == "低"%>
+        <td class="text priority low"><%= task.priority_i18n %></td>
+      <% end %>
+      <td class="link">
+        <%= link_to t("view.show"),task_path(task.id),class:"btn btn-info btn-sm" %>
+        <%= link_to t("view.edit"),edit_task_path(task.id),class:"btn btn-warning btn-sm" %>
+        <%= link_to t("view.delete"),task_path(task.id),method: :delete,data:{confirm:t("view.Are you really sure?")},class:"btn btn-danger btn-sm" %>
+      </td>
+    </tr>
+    <% end %>
+  </table>
+</div>
 <div>
   <%= paginate @tasks %>
 </div>
 <br>
-<div>
+<div class="link">
   <%= link_to t("view.deadline_sort"),tasks_path(sort_expired: "true") %>
   <%= link_to t("view.priority_sort"),tasks_path(sort_priority: "true") %>
 </div>
 <br>
-<div>
+<div class="link">
   <%= link_to t("view.new"),new_task_path %>
 </div>
