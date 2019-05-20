@@ -1,0 +1,1 @@
+User.create(name:"山田太郎",email:"aaaaa@mail.com",password_digest:"password")
