@@ -27,7 +27,7 @@ RSpec.feature "タスク管理機能",type: :feature do
     fill_in "Title", with: "タイトル4"
     fill_in "Content", with: "本文4"
     fill_in "Deadline",with: "2020-01-01"
-    fill_in "Status",with: "未着手"
+    select "未着手",from: "task_status"
     select "高",from: "task_priority"
     click_on "登録する"
 
