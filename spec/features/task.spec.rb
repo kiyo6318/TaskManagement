@@ -3,9 +3,14 @@ require 'rails_helper'
 RSpec.feature "タスク管理機能",type: :feature do
 
   background do
-    FactoryBot.create(:task)
-    FactoryBot.create(:second_task)
-    FactoryBot.create(:third_task)
+    @user = User.create(name:"jon",email:"jon@mail.com",password:"password",password_confirmation:"password")
+    visit new_session_path
+    fill_in "Email",with: "jon@mail.com"
+    fill_in "Password",with: "password"
+    click_on "ログインする"
+    FactoryBot.create(:task,user_id:@user.id)
+    FactoryBot.create(:second_task,user_id:@user.id)
+    FactoryBot.create(:third_task,user_id:@user.id)
   end
 
   scenario "タスク一覧のテスト" do
@@ -22,6 +27,7 @@ RSpec.feature "タスク管理機能",type: :feature do
     fill_in "Title", with: "タイトル4"
     fill_in "Content", with: "本文4"
     fill_in "Deadline",with: "2020-01-01"
+    select "未着手",from: "task_status"
     select "高",from: "task_priority"
     click_on "登録する"
 
@@ -29,7 +35,7 @@ RSpec.feature "タスク管理機能",type: :feature do
   end
 
   scenario "タスク詳細のテスト" do
-    task = Task.create!(title:"タイトル5",content:"本文5")
+    task = Task.create!(title:"タイトル5",content:"本文5",user_id:@user.id)
     visit task_path(task.id)
     expect(page).to have_content "本文5"
   end
@@ -56,7 +62,7 @@ RSpec.feature "タスク管理機能",type: :feature do
 
   scenario "タスク一覧の1ページ内にタスクが12個だけ表示されるかのテスト" do
     60.times do |i = 4|
-      Task.create!(id:i, title: "タイトル#{i}", content: "本文#{i}" , deadline: Date.today , status: "未着手" ,priority: "high")
+      Task.create!(id:i, title: "タイトル#{i}", content: "本文#{i}" , deadline: Date.today , status: "未着手" ,priority: "high",user_id:@user.id)
     end
     visit tasks_path
     expect(all("table tr").size).to eq(13) #見出しで１行
@@ -64,7 +70,7 @@ RSpec.feature "タスク管理機能",type: :feature do
 
   scenario "ページネーション(next)" do
     57.times do |i|
-      Task.create!(id:i, title: "タイトル#{i}", content: "本文#{i}" , deadline: Date.today , status: "未着手" ,priority: "high")
+      Task.create!(id:i, title: "タイトル#{i}", content: "本文#{i}" , deadline: Date.today , status: "未着手" ,priority: "high",user_id:@user.id)
     end
     visit tasks_path
 
@@ -75,7 +81,7 @@ RSpec.feature "タスク管理機能",type: :feature do
 
   scenario "ページネーション(Last)" do
     57.times do |i|
-      Task.create!(id:i, title: "タイトル#{i}", content: "本文#{i}" , deadline: Date.today , status: "未着手" ,priority: "high")
+      Task.create!(id:i, title: "タイトル#{i}", content: "本文#{i}" , deadline: Date.today , status: "未着手" ,priority: "high",user_id:@user.id)
     end
     visit tasks_path
 
@@ -86,7 +92,7 @@ RSpec.feature "タスク管理機能",type: :feature do
 
   scenario "ページネーション(Previous)" do
     57.times do |i|
-      Task.create!(id:i, title: "タイトル#{i}", content: "本文#{i}" , deadline: Date.today , status: "未着手" ,priority: "high")
+      Task.create!(id:i, title: "タイトル#{i}", content: "本文#{i}" , deadline: Date.today , status: "未着手" ,priority: "high",user_id:@user.id)
     end
     visit tasks_path
 
@@ -98,7 +104,7 @@ RSpec.feature "タスク管理機能",type: :feature do
 
   scenario "ページネーション(First)" do
     57.times do |i|
-      Task.create!(id:i, title: "タイトル#{i}", content: "本文#{i}" , deadline: Date.today , status: "未着手" ,priority: "high")
+      Task.create!(id:i, title: "タイトル#{i}", content: "本文#{i}" , deadline: Date.today , status: "未着手" ,priority: "high",user_id:@user.id)
     end
     visit tasks_path
 
@@ -111,9 +117,14 @@ end
 
 RSpec.feature "タスク検索機能",type: :feature do
   background do
-    FactoryBot.create(:task)
-    FactoryBot.create(:second_task)
-    FactoryBot.create(:third_task)
+    @user = User.create(name:"alex",email:"alex@mail.com",password:"password",password_confirmation:"password")
+    visit new_session_path
+    fill_in "Email",with: "alex@mail.com"
+    fill_in "Password",with: "password"
+    click_on "ログインする"
+    FactoryBot.create(:task,user_id:@user.id)
+    FactoryBot.create(:second_task,user_id:@user.id)
+    FactoryBot.create(:third_task,user_id:@user.id)
   end
   scenario "titleとstatus両方で絞り込み検索テスト" do
     visit tasks_path

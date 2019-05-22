@@ -1,14 +1,16 @@
 class TasksController < ApplicationController
-  before_action :set_task,only: %i(show edit destroy update)
+  before_action :set_task,only: %i(show edit destroy update task_ensure_correct_user)
+  before_action :task_ensure_correct_user,only: %i(show edit update destroy)
+  before_action :authenticate_user
   def index
     @tasks =
     if params[:search] == "true"
-      Task.searchings(
+      current_user.tasks.searchings(
         params[:title_search],
         params[:status_search]
         ).page(params[:page]).per(12)
     else
-      Task.sortings(
+      current_user.tasks.sortings(
         params[:sort_expired],
         params[:sort_priority]
         ).page(params[:page]).per(12)
@@ -20,7 +22,7 @@ def new
 end
 
 def create
-  @task = Task.new(task_params)
+  @task = current_user.tasks.new(task_params)
   if @task.save
     redirect_to tasks_path,notice:"タスクを追加しました!"
   else
@@ -45,6 +47,12 @@ end
 def destroy
   @task.destroy
   redirect_to tasks_path,notice:"タスクを削除しました!"
+end
+
+def task_ensure_correct_user
+  if @task.user_id != current_user.id
+    redirect_to user_path(current_user.id),notice:"権限がありません"
+  end
 end
 
 private

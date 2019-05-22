@@ -1,6 +1,7 @@
 ---
 ja:
   view:
+    index: "タスク一覧"
     new: "タスク新規登録"
     show: "詳細"
     edit: "編集"
@@ -10,6 +11,10 @@ ja:
     priority_sort: "優先順位でソートする"
     search: "検索"
     Are you really sure?: "本当によろしいですか？"
+    login: "ログイン"
+    button_login: "ログインする"
+    logout: "ログアウト"
+    user_new: "ユーザー登録"
   activerecord:
     errors:
       messages:

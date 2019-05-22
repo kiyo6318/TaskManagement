@@ -1,18 +1,45 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>TaskManagement</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>TaskManagement</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
 
-  <body class="container">
-    <% if flash[:notice] %>
-      <p><%= flash[:notice] %></p>
-    <% end %>
-    <%= yield %>
-  </body>
+<body class="container">
+  <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#Navber" aria-controls="Navber" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <span class="navbar-brand"><%= link_to "TaskManagement",tasks_path %></span>
+    <div class="collapse navbar-collapse">
+      <% if logget_in?%>
+      <span class="navbar-text ml-auto">
+        <%= link_to current_user.name,user_path(current_user.id) %>
+      </span>
+      <span class="navbar-text ml-auto">
+        <%= link_to t("view.index"),tasks_path %>
+      </span>
+      <span class="navbar-text ml-auto">
+        <%= link_to t("view.new"),new_task_path %>
+      </span>
+      <span class="navbar-text ml-auto">
+        <%= link_to t("view.logout"),session_path(current_user.id),method: :delete %>
+      </span>
+      <% else %>
+      <span class="navbar-text ml-auto">
+        <%= link_to t("view.user_new"),new_user_path %>
+        <%= link_to t("view.login"),new_session_path %>
+      </span>
+      <% end %>
+    </div>
+  </nav>
+  <% if flash[:notice] %>
+  <p><%= flash[:notice] %></p>
+  <% end %>
+  <%= yield %>
+</body>
 </html>
