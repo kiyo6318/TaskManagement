@@ -80,4 +80,45 @@ RSpec.feature "ユーザー管理機能",type: :feature do
     expect(page).to have_content "#{@test_user.name}のマイページ"
     expect(page).to have_content "#{@test_user.email}"
   end
-end
+
+  scenario "管理画面でユーザー 一覧のテスト" do
+    User.create(name:"テストユーザー5",email:"test5@mail.com",password:"password",password_confirmation:"password")
+    visit admin_users_path
+    expect(page).to have_content "テストユーザー"
+    expect(page).to have_content "テストユーザー5"
+  end
+
+  scenario "管理画面でユーザー作成のテスト" do
+    visit new_admin_user_path
+    fill_in "Name",with: "テストユーザー6"
+    fill_in "Email",with: "test6@mail.com"
+    fill_in "Password",with: "password"
+    fill_in "Password confirmation",with: "password"
+    click_on "登録する"
+    expect(page).to have_content "管理者権限でユーザー登録しました！"
+  end
+
+  scenario "管理画面でユーザー情報編集のテスト" do
+    visit edit_admin_user_path(@test_user)
+    fill_in "Name",with: "テストユーザー7"
+    fill_in "Password",with: "hoge"
+    fill_in "Password confirmation",with: "hoge"
+    click_on "更新する"
+    expect(page).to have_content "管理者権限でユーザー情報を編集しました！"
+    expect(page).to have_content "テストユーザー7"
+  end
+
+  scenario "管理画面でユーザー削除のテスト" do
+    visit admin_user_path(@test_user)
+    click_on "このユーザーを削除する"
+    expect(page).to have_content "管理者権限でユーザーを削除しました"
+    expect(page).not_to have_content "テストユーザー1"
+  end
+
+  scenario "管理画面のユーザー詳細でそのユーザーのタスク一覧が表示されているかのテスト" do
+    Task.create(title:"テストタイトル３",content:"テスト本文３",user_id:@test_user.id)
+    visit admin_user_path(@test_user)
+    expect(page).to have_content "テストタイトル１"
+    expect(page).to have_content "テストタイトル３"
+  end
+ end
