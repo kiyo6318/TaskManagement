@@ -1,5 +1,9 @@
 <h1><%= @user.name %>様のページ</h1>
-
+<div>
+  <% if @user.admin == true %>
+    このユーザーは管理者です
+  <% end %>
+</div>
 <div>メールアドレス:<%= @user.email %></div>
 <%= link_to "このユーザーを削除する",admin_user_path(@user.id),method: :delete,data:{confirm:t("view.Are you really sure?")} %>
 <h3><%= @user.name %>様のタスク一覧</h3>

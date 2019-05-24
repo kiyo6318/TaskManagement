@@ -1,1 +1,1 @@
-User.create(id:1,name:"山田太郎",email:"aaaaa@mail.com",password:"password",password_confirmation:"password")
+User.create(id:1,name:"山田太郎",email:"aaaaa@mail.com",password:"password",password_confirmation:"password",admin:true)

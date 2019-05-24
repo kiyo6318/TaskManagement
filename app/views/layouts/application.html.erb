@@ -17,18 +17,39 @@
     <span class="navbar-brand"><%= link_to "TaskManagement",tasks_path %></span>
     <div class="collapse navbar-collapse">
       <% if logget_in?%>
-      <span class="navbar-text ml-auto">
-        <%= link_to current_user.name,user_path(current_user.id) %>
-      </span>
-      <span class="navbar-text ml-auto">
-        <%= link_to t("view.index"),tasks_path %>
-      </span>
-      <span class="navbar-text ml-auto">
-        <%= link_to t("view.new"),new_task_path %>
-      </span>
-      <span class="navbar-text ml-auto">
-        <%= link_to t("view.logout"),session_path(current_user.id),method: :delete %>
-      </span>
+        <% if current_user.admin == false%>
+          <span class="navbar-text ml-auto">
+            <%= link_to current_user.name,user_path(current_user.id) %>
+          </span>
+          <span class="navbar-text ml-auto">
+            <%= link_to t("view.index"),tasks_path %>
+          </span>
+          <span class="navbar-text ml-auto">
+            <%= link_to t("view.new"),new_task_path %>
+          </span>
+          <span class="navbar-text ml-auto">
+            <%= link_to t("view.logout"),session_path(current_user.id),method: :delete %>
+          </span>
+        <% elsif current_user.admin == true %>
+          <span class="navbar-text ml-auto">
+            <%= link_to current_user.name,user_path(current_user.id) %>
+          </span>
+          <span class="navbar-text ml-auto">
+            <%= link_to t("view.index"),tasks_path %>
+          </span>
+          <span class="navbar-text ml-auto">
+            <%= link_to t("view.new"),new_task_path %>
+          </span>
+          <span class="navbar-text ml-auto">
+            <%= link_to t("view.user_index"),admin_users_path %>
+          </span>
+          <span class="navbar-text ml-auto">
+            <%= link_to t("view.user_new"),new_admin_user_path %>
+          </span>
+          <span class="navbar-text ml-auto">
+            <%= link_to t("view.logout"),session_path(current_user.id),method: :delete %>
+          </span>
+        <% end %>
       <% else %>
       <span class="navbar-text ml-auto">
         <%= link_to t("view.user_new"),new_user_path %>
