@@ -15,6 +15,7 @@ ja:
     button_login: "ログインする"
     logout: "ログアウト"
     user_new: "ユーザー登録"
+    user_index: "ユーザー 一覧"
   activerecord:
     errors:
       messages:
