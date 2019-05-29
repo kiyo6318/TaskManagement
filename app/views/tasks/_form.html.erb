@@ -27,5 +27,10 @@
     <%= f.label :priority %>
     <%= f.select :priority, Task.priorities.keys.map{|k| [Task.priorities_i18n[k],k]} %>
   </div>
-  <%= f.submit %>
+  <% Label.all.each do |label| %>
+    <%= f.check_box :label_ids, { multiple: true, checked: label[:checked], disabled: label[:disabled], include_hidden: false }, label[:id] %><%= label.category %>
+  <% end %>
+  <div>
+    <%= f.submit %>
+  </div>
 <% end %>

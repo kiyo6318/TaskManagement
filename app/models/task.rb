@@ -2,6 +2,8 @@ class Task < ApplicationRecord
   validates :title,presence: true,length:{maximum:50}
   validates :content,presence: true,length:{maximum:150}
   belongs_to :user
+  has_many :task_labels,dependent: :destroy
+  has_many :labels,through: :task_labels,source: :label
 
   def self.searchings(
        title = nil,
