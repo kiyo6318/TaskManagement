@@ -11,6 +11,11 @@ RSpec.feature "タスク管理機能",type: :feature do
     FactoryBot.create(:task,user_id:@user.id)
     FactoryBot.create(:second_task,user_id:@user.id)
     FactoryBot.create(:third_task,user_id:@user.id)
+    @label1 = Label.create(category:"ラベル1")
+    @label2 = Label.create(category:"ラベル2")
+    @label3 = Label.create(category:"ラベル3")
+    @label4 = Label.create(category:"ラベル4")
+    @label5 = Label.create(category:"ラベル5")
   end
 
   scenario "タスク一覧のテスト" do
@@ -34,10 +39,35 @@ RSpec.feature "タスク管理機能",type: :feature do
     expect(page).to have_content "タイトル4"
   end
 
+  scenario "タスク作成時にラベルを付与するテスト" do
+    visit new_task_path
+
+    fill_in "Title", with: "タイトル(ラベル付き)"
+    fill_in "Content", with: "本文(ラベル付き)"
+    fill_in "Deadline",with: "2020-01-01"
+    select "未着手",from: "task_status"
+    select "高",from: "task_priority"
+    check "task_label_ids_#{@label1.id}"
+    click_on "登録する"
+    expect(page).to have_content "タイトル(ラベル付き)"
+    expect(page).to have_content "ラベル1"
+  end
+
   scenario "タスク詳細のテスト" do
     task = Task.create!(title:"タイトル5",content:"本文5",user_id:@user.id)
     visit task_path(task.id)
     expect(page).to have_content "本文5"
+  end
+
+  scenario "タスク詳細に付与されているラベルが表示されるかのテスト" do
+    task = Task.create!(title:"タイトル6",content:"本文6",user_id:@user.id)
+    task.labels = Label.all
+    visit task_path(task.id)
+    expect(page).to have_content "ラベル1"
+    expect(page).to have_content "ラベル2"
+    expect(page).to have_content "ラベル3"
+    expect(page).to have_content "ラベル4"
+    expect(page).to have_content "ラベル5"
   end
 
   scenario "タスクが作成日時の降順に並んでいるかのテスト" do
@@ -122,9 +152,10 @@ RSpec.feature "タスク検索機能",type: :feature do
     fill_in "Email",with: "alex@mail.com"
     fill_in "Password",with: "password"
     click_on "ログインする"
-    FactoryBot.create(:task,user_id:@user.id)
-    FactoryBot.create(:second_task,user_id:@user.id)
-    FactoryBot.create(:third_task,user_id:@user.id)
+    @task1 = FactoryBot.create(:task,user_id:@user.id)
+    @task2 = FactoryBot.create(:second_task,user_id:@user.id)
+    @task3 = FactoryBot.create(:third_task,user_id:@user.id)
+    Label.create(category:"ラベル1")
   end
   scenario "titleとstatus両方で絞り込み検索テスト" do
     visit tasks_path
@@ -163,6 +194,18 @@ RSpec.feature "タスク検索機能",type: :feature do
     fill_in "title_search",with: "タイトル4"
     click_on "検索"
     expect(page).not_to have_content "タイトル1"
+    expect(page).not_to have_content "タイトル2"
+    expect(page).not_to have_content "タイトル3"
+  end
+  scenario "ラベルで絞り込み検索テスト" do
+    @task1.labels = Label.all
+    visit tasks_path
+    expect(page).to have_content "タイトル1"
+    expect(page).to have_content "タイトル2"
+    expect(page).to have_content "タイトル3"
+    select "ラベル1",from: "label_search"
+    click_on "検索"
+    expect(page).to have_content "タイトル1"
     expect(page).not_to have_content "タイトル2"
     expect(page).not_to have_content "タイトル3"
   end
