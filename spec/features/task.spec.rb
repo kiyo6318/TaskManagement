@@ -91,8 +91,8 @@ RSpec.feature "タスク管理機能",type: :feature do
   end
 
   scenario "タスク一覧の1ページ内にタスクが12個だけ表示されるかのテスト" do
-    60.times do |i = 4|
-      Task.create!(id:i, title: "タイトル#{i}", content: "本文#{i}" , deadline: Date.today , status: "未着手" ,priority: "high",user_id:@user.id)
+    60.times do |i|
+      Task.create!(title: "タイトル#{i}", content: "本文#{i}" , deadline: Date.today , status: "未着手" ,priority: "high",user_id:@user.id)
     end
     visit tasks_path
     expect(all("table tr").size).to eq(13) #見出しで１行
@@ -100,7 +100,7 @@ RSpec.feature "タスク管理機能",type: :feature do
 
   scenario "ページネーション(next)" do
     57.times do |i|
-      Task.create!(id:i, title: "タイトル#{i}", content: "本文#{i}" , deadline: Date.today , status: "未着手" ,priority: "high",user_id:@user.id)
+      Task.create!(title: "タイトル#{i}", content: "本文#{i}" , deadline: Date.today , status: "未着手" ,priority: "high",user_id:@user.id)
     end
     visit tasks_path
 
@@ -111,7 +111,7 @@ RSpec.feature "タスク管理機能",type: :feature do
 
   scenario "ページネーション(Last)" do
     57.times do |i|
-      Task.create!(id:i, title: "タイトル#{i}", content: "本文#{i}" , deadline: Date.today , status: "未着手" ,priority: "high",user_id:@user.id)
+      Task.create!(title: "タイトル#{i}", content: "本文#{i}" , deadline: Date.today , status: "未着手" ,priority: "high",user_id:@user.id)
     end
     visit tasks_path
 
@@ -122,7 +122,7 @@ RSpec.feature "タスク管理機能",type: :feature do
 
   scenario "ページネーション(Previous)" do
     57.times do |i|
-      Task.create!(id:i, title: "タイトル#{i}", content: "本文#{i}" , deadline: Date.today , status: "未着手" ,priority: "high",user_id:@user.id)
+      Task.create!(title: "タイトル#{i}", content: "本文#{i}" , deadline: Date.today , status: "未着手" ,priority: "high",user_id:@user.id)
     end
     visit tasks_path
 
@@ -134,7 +134,7 @@ RSpec.feature "タスク管理機能",type: :feature do
 
   scenario "ページネーション(First)" do
     57.times do |i|
-      Task.create!(id:i, title: "タイトル#{i}", content: "本文#{i}" , deadline: Date.today , status: "未着手" ,priority: "high",user_id:@user.id)
+      Task.create!(title: "タイトル#{i}", content: "本文#{i}" , deadline: Date.today , status: "未着手" ,priority: "high",user_id:@user.id)
     end
     visit tasks_path
 
