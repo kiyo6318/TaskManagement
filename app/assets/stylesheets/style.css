@@ -17,3 +17,7 @@
 .text{
   white-space: normal;
 }
+
+.label{
+  font-size: 10px
+}

@@ -31,6 +31,13 @@
         <td class="text priority low"><%= @task.priority_i18n %></td>
       <% end %>
     </tr>
+    <tr>
+      <td>
+        <% @task.labels.each do |label| %>
+          <%= label.category %>
+        <% end %>
+      </td>
+    </tr>
   </table>
 </div>
 <%= link_to t("view.edit"),edit_task_path(@task.id) %>
